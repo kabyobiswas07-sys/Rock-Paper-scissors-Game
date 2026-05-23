@@ -1,1 +1,1 @@
-# Rock-Paper-scissors-Game
+The Rock Paper Scissors Game is a simple and interactive project developed using Java. In this game, the player competes against the computer by choosing Rock, Paper, or Scissors. The computer generates a random choice, and the winner is decided according to the game rules. This project helps beginners learn basic programming concepts like conditional statements, loops, and random number generation. It also improves problem-solving and logical thinking skills. The game provides a fun and user-friendly experience for users.
