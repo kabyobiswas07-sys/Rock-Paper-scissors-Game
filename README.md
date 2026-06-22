@@ -5,9 +5,9 @@ rules
 
 Game Rules
 
-. Rock beats Scissors
-· Scissors beats Paper
-· Paper beats Rock
+* Rock beats Scissors
+* Scissors beats Paper
+* Paper beats Rock
 
 This project is designed to improve programming logic, conditional statements, loops, and
 random number generation skills. It is a beginner-friendly project and can be developed using
