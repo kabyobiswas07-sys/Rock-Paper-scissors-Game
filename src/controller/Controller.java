@@ -2,14 +2,24 @@ package controller;
 
 import model.DataModel;
 import utils.Validator;
+import java.util.Random;
 
 
 public class Controller {
 
     private DataModel model;
+    private Random    random;
+
+    
+    private static final String[] CHOICES = {
+        DataModel.ROCK,
+        DataModel.PAPER,
+        DataModel.SCISSORS
+    };
 
     public Controller() {
-        model = new DataModel();
+        model  = new DataModel();
+        random = new Random();
     }
 
    
@@ -23,10 +33,21 @@ public class Controller {
         
         model.setPlayerChoice(choice);
 
-        
-        return "You chose: " + model.getPlayerChoice()
-             + " — waiting for computer... (coming in Week 5)";
+       
+        String computerChoice = generateComputerChoice();
+        model.setComputerChoice(computerChoice);
+
+           return "You chose: " + model.getPlayerChoice()
+             + "   |   Computer chose: " + model.getComputerChoice();
     }
+
+    
+    private String generateComputerChoice() {
+        int index = random.nextInt(CHOICES.length);   // 0, 1, or 2
+        return CHOICES[index];
+    }
+
+  
 
     public String handleReset() {
         model.reset();
@@ -36,5 +57,9 @@ public class Controller {
    
     public String getPlayerChoice() {
         return model.getPlayerChoice();
+    }
+
+    public String getComputerChoice() {             // ← NEW
+        return model.getComputerChoice();
     }
 }
