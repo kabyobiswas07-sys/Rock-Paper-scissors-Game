@@ -1,40 +1,38 @@
 package ui;
 
 import controller.Controller;
+import model.DataModel;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
-
 
 public class UserInterface extends JFrame {
 
     private Controller controller;
 
-    
     private ImageIcon rockIcon;
     private ImageIcon paperIcon;
     private ImageIcon scissorsIcon;
-    private ImageIcon unknownIcon;  
+    private ImageIcon unknownIcon;
 
-    
     private RoundedButton rockButton;
     private RoundedButton paperButton;
     private RoundedButton scissorsButton;
     private JButton       resetButton;
 
-    
-    private JLabel statusLabel;          
-    private JLabel playerIconLabel;      
-    private JLabel computerIconLabel;    
-    private JLabel playerNameLabel;     
-    private JLabel computerNameLabel;    
+    private JLabel statusLabel;      
+    private JLabel resultBanner;     
+    private JLabel playerIconLabel;
+    private JLabel computerIconLabel;
+    private JLabel playerNameLabel;
+    private JLabel computerNameLabel;
 
     public UserInterface() {
         controller = new Controller();
 
         setTitle("Rock Paper Scissors");
-        setSize(560, 460);
-        setMinimumSize(new Dimension(460, 380));
+        setSize(560, 500);
+        setMinimumSize(new Dimension(460, 420));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -43,16 +41,14 @@ public class UserInterface extends JFrame {
         setVisible(true);
     }
 
-    
 
     private void loadIcons() {
         rockIcon     = loadIcon("/images/rock.png",     64);
         paperIcon    = loadIcon("/images/paper.png",    64);
         scissorsIcon = loadIcon("/images/scissors.png", 64);
-        unknownIcon  = makeQuestionMarkIcon();         
+        unknownIcon  = makeQuestionMarkIcon();
     }
 
-  
     private ImageIcon makeQuestionMarkIcon() {
         int size = 64;
         java.awt.image.BufferedImage img =
@@ -72,70 +68,76 @@ public class UserInterface extends JFrame {
         return new ImageIcon(img);
     }
 
-    
 
     private void initComponents() {
 
-        
         statusLabel = new JLabel("Choose Rock, Paper, or Scissors!", SwingConstants.CENTER);
-        statusLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        statusLabel.setBorder(BorderFactory.createEmptyBorder(12, 10, 8, 10));
+        statusLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        statusLabel.setBorder(BorderFactory.createEmptyBorder(12, 10, 4, 10));
         add(statusLabel, BorderLayout.NORTH);
 
-        
-        JPanel vsPanel = buildVsPanel();
-        add(vsPanel, BorderLayout.CENTER);
+        JPanel centerPanel = new JPanel(new BorderLayout(0, 6));
+        centerPanel.setOpaque(false);
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
 
-        
-        JPanel bottomPanel = buildBottomPanel();
-        add(bottomPanel, BorderLayout.SOUTH);
+        centerPanel.add(buildVsPanel(),     BorderLayout.CENTER);
+        centerPanel.add(buildResultBanner(), BorderLayout.SOUTH); 
+
+        add(centerPanel, BorderLayout.CENTER);
+
+        add(buildBottomPanel(), BorderLayout.SOUTH);
     }
 
-   
     private JPanel buildVsPanel() {
         JPanel panel = new JPanel(new GridLayout(1, 3, 10, 0));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        panel.setBorder(BorderFactory.createEmptyBorder(6, 30, 6, 30));
         panel.setOpaque(false);
 
-        
         JPanel playerPanel = new JPanel(new BorderLayout(0, 6));
         playerPanel.setOpaque(false);
         playerIconLabel = new JLabel(unknownIcon, SwingConstants.CENTER);
         playerNameLabel = new JLabel("You", SwingConstants.CENTER);
         playerNameLabel.setFont(new Font("Arial", Font.BOLD, 14));
         playerNameLabel.setForeground(new Color(40, 80, 160));
-        playerPanel.add(playerIconLabel,  BorderLayout.CENTER);
-        playerPanel.add(playerNameLabel,  BorderLayout.SOUTH);
+        playerPanel.add(playerIconLabel, BorderLayout.CENTER);
+        playerPanel.add(playerNameLabel, BorderLayout.SOUTH);
 
-       
         JLabel vsLabel = new JLabel("VS", SwingConstants.CENTER);
         vsLabel.setFont(new Font("Arial", Font.BOLD, 26));
         vsLabel.setForeground(new Color(180, 60, 60));
 
-        
         JPanel computerPanel = new JPanel(new BorderLayout(0, 6));
         computerPanel.setOpaque(false);
         computerIconLabel = new JLabel(unknownIcon, SwingConstants.CENTER);
         computerNameLabel = new JLabel("Computer", SwingConstants.CENTER);
         computerNameLabel.setFont(new Font("Arial", Font.BOLD, 14));
         computerNameLabel.setForeground(new Color(160, 40, 40));
-        computerPanel.add(computerIconLabel,  BorderLayout.CENTER);
-        computerPanel.add(computerNameLabel,  BorderLayout.SOUTH);
+        computerPanel.add(computerIconLabel, BorderLayout.CENTER);
+        computerPanel.add(computerNameLabel, BorderLayout.SOUTH);
 
         panel.add(playerPanel);
         panel.add(vsLabel);
         panel.add(computerPanel);
-
         return panel;
     }
 
-   
+    private JPanel buildResultBanner() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panel.setOpaque(false);
+
+        resultBanner = new JLabel(" ", SwingConstants.CENTER);
+        resultBanner.setFont(new Font("Arial", Font.BOLD, 30));
+        resultBanner.setVisible(false);  
+
+        panel.add(resultBanner);
+        return panel;
+    }
+
     private JPanel buildBottomPanel() {
         JPanel wrapper = new JPanel(new BorderLayout(0, 8));
         wrapper.setBorder(BorderFactory.createEmptyBorder(0, 20, 16, 20));
         wrapper.setOpaque(false);
 
-      
         JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 14, 0));
         buttonPanel.setOpaque(false);
 
@@ -151,7 +153,6 @@ public class UserInterface extends JFrame {
         buttonPanel.add(paperButton);
         buttonPanel.add(scissorsButton);
 
-        
         resetButton = new JButton("Reset");
         resetButton.setFont(new Font("Arial", Font.PLAIN, 13));
         resetButton.setFocusPainted(false);
@@ -162,39 +163,58 @@ public class UserInterface extends JFrame {
         wrapper.add(buttonPanel,  BorderLayout.CENTER);
         wrapper.add(resetWrapper, BorderLayout.SOUTH);
 
-      
         rockButton.addActionListener(e     -> handleChoice("Rock"));
         paperButton.addActionListener(e    -> handleChoice("Paper"));
         scissorsButton.addActionListener(e -> handleChoice("Scissors"));
 
-        resetButton.addActionListener(e -> {
-            statusLabel.setText(controller.handleReset());
-            playerIconLabel.setIcon(unknownIcon);
-            computerIconLabel.setIcon(unknownIcon);
-            playerNameLabel.setText("You");
-            computerNameLabel.setText("Computer");
-        });
+        resetButton.addActionListener(e -> handleReset());
 
         return wrapper;
     }
 
-    
+
     private void handleChoice(String choice) {
-        
         String message = controller.handlePlayerChoice(choice);
         statusLabel.setText(message);
 
-        
         playerIconLabel.setIcon(getIconFor(choice));
         playerNameLabel.setText("You: " + choice);
 
-        
         String compChoice = controller.getComputerChoice();
         computerIconLabel.setIcon(getIconFor(compChoice));
-        computerNameLabel.setText("CPU: " + compChoice);
+        computerNameLabel.setText("Computer: " + compChoice);
+
+        showResultBanner(controller.getResult());
     }
 
-    
+    private void handleReset() {
+        statusLabel.setText(controller.handleReset());
+        playerIconLabel.setIcon(unknownIcon);
+        computerIconLabel.setIcon(unknownIcon);
+        playerNameLabel.setText("You");
+        computerNameLabel.setText("Computer");
+        resultBanner.setVisible(false);
+    }
+
+    private void showResultBanner(String result) {
+        switch (result) {
+            case DataModel.WIN:
+                resultBanner.setText("🎉  YOU WIN!  🎉");
+                resultBanner.setForeground(new Color(0, 150, 60));
+                break;
+            case DataModel.LOSE:
+                resultBanner.setText("😞  YOU LOSE  😞");
+                resultBanner.setForeground(new Color(200, 30, 30));
+                break;
+            default:
+                resultBanner.setText("🤝  DRAW  🤝");
+                resultBanner.setForeground(new Color(100, 100, 120));
+                break;
+        }
+        resultBanner.setVisible(true);
+    }
+
+
     private ImageIcon getIconFor(String choice) {
         switch (choice) {
             case "Rock":     return rockIcon;
@@ -204,7 +224,6 @@ public class UserInterface extends JFrame {
         }
     }
 
- 
     private ImageIcon loadIcon(String path, int size) {
         URL url = getClass().getResource(path);
         if (url == null) {
