@@ -2,7 +2,7 @@
 
 > 🖥️ A fully functional **Rock Paper Scissors** desktop game built in **Java Swing** as a university project.
 
-
+```
 🪨  Rock   →  crushes  →  ✂️  Scissors
 ✂️  Scissors →  cuts   →  📄  Paper
 📄  Paper   →  covers  →  🪨  Rock
@@ -10,6 +10,7 @@
 
 The player competes against the computer, which makes a random choice each round. The game tracks wins, losses, and draws with a live scoreboard, flashing animations, and sound effects.
 
+---
 
 ## ⚡ Features
 
@@ -26,7 +27,7 @@ The player competes against the computer, which makes a random choice each round
 - 🔄 Two reset options: New Round (keeps score) and Reset Scores (clears all)
 - ✅ 53 JUnit automated tests covering all core logic
 
-
+---
 
 ## 🧰 Technologies
 
@@ -38,29 +39,29 @@ The player competes against the computer, which makes a random choice each round
 - 🧪 JUnit 4
 - 🐙 GitHub
 
-
+---
 
 ## 📋 Requirements
 
 - ☕ JDK 8 or newer
 - 💻 Any Java IDE such as NetBeans, IntelliJ IDEA, or Eclipse
 
-
+---
 
 ## 🚀 How to Run
 
 1. Clone the repository:
 
-
+```
 git clone https://github.com/kabyobiswas07-sys/Rock-Paper-scissors-Game.git
-
+```
 
 2. 📂 Open the project in NetBeans (or any Java IDE)
 3. 🔍 Locate `Main.java` inside the `src` folder
 4. ▶️ Run the `main()` method
 5. 🎮 The game window will open — click Rock, Paper, or Scissors to play
 
-
+---
 
 ## 🕹️ How to Play
 
@@ -71,7 +72,7 @@ git clone https://github.com/kabyobiswas07-sys/Rock-Paper-scissors-Game.git
 | 🔄 Start a new round | Click **New Round** — scores are kept |
 | 🗑️ Reset everything | Click **Reset Scores** — all counters go back to 0 |
 
-
+---
 
 ## 🗂️ Project Structure
 
@@ -102,7 +103,7 @@ test/
     └── ValidatorTest.java
 ```
 
-
+---
 
 ## 🔩 Main Classes
 
@@ -114,7 +115,7 @@ test/
 - ✔️ **Validator.java** — Checks that the player's input is one of the three valid choices before processing
 - 🔊 **SoundPlayer.java** — Generates win, lose, draw, and click sounds using sine-wave math — no external audio files needed
 
-
+---
 
 ## 🏆 Game Rules
 
@@ -130,7 +131,7 @@ test/
 | 📄 Paper | 📄 Paper | DRAW 🤝 | Same choice |
 | ✂️ Scissors | ✂️ Scissors | DRAW 🤝 | Same choice |
 
-
+---
 
 ## 💥 Game Logic
 
@@ -146,11 +147,11 @@ if ((player.equals(DataModel.ROCK)     && computer.equals(DataModel.SCISSORS)) |
     return DataModel.WIN;
 }
 return DataModel.LOSE;
-
+```
 
 This covers all 9 possible combinations every round.
 
-
+---
 
 ## 📅 Weekly Development
 
@@ -184,7 +185,7 @@ Wrote 53 JUnit 4 tests across three test classes. Found and fixed 3 bugs: null p
 ### 🎓 Week 10 — Finalization & Submission
 Prepared the final report, updated README, added screenshots, completed the final GitHub upload, and prepared for project presentation.
 
-
+---
 
 ## 🔬 Testing
 
@@ -197,7 +198,7 @@ Prepared the final report, updated README, added screenshots, completed the fina
 | ControllerTest.java | 17 | Round flow, computer choice, result format, score totals, resets |
 | **Total** | **53** | All core game logic |
 
-
+---
 
 ## 🔧⚠️ Bugs Fixed
 
@@ -207,7 +208,7 @@ Prepared the final report, updated README, added screenshots, completed the fina
 | 2 | Controller.java | Rapid clicks doubled the score in one round | Added `isProcessing` boolean flag to block re-entry |
 | 3 | UserInterface.java | Flash Timer kept running after window close | Added `WindowListener` calling `stopFlashAnimation()` on close |
 
-
+---
 
 ## 🔭 Future Improvements
 
@@ -219,7 +220,7 @@ Prepared the final report, updated README, added screenshots, completed the fina
 - 🏠 Main menu screen
 - 🎬 Animated transitions between rounds
 
-
+---
 
 ## 🪪 Project Information
 
