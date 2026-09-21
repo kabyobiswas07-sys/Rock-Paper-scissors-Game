@@ -1,6 +1,6 @@
 # 🪨📄✂️ Rock Paper Scissors Game
 
-> 🖥️ A fully functional **Rock Paper Scissors** desktop game built in **Java Swing** as a university project.
+> 🖥️ A fully functional **Rock Paper Scissors** desktop game built in **Java Swing** as a university project, In software Development I.
 
 ```
 🪨  Rock   →  crushes  →  ✂️  Scissors
