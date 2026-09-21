@@ -5,35 +5,49 @@ import model.DataModel;
 import utils.SoundPlayer;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.URL;
 
-
+/**
+ * Week 9 – Testing and Debugging
+ *
+ * Bug fix found during testing:
+ *
+ *   BUG 3 – Flash animation Timer keeps running after window is closed
+ *   When the user closed the window during a flash animation, the Timer
+ *   thread kept running in the background, preventing the JVM from
+ *   shutting down cleanly in some environments.
+ *   FIX: Added a WindowListener that calls stopFlashAnimation() on close.
+ *
+ * Everything else is unchanged from Week 8.
+ */
 public class UserInterface extends JFrame {
 
     private Controller controller;
 
-   
+    // Icons
     private ImageIcon rockIcon;
     private ImageIcon paperIcon;
     private ImageIcon scissorsIcon;
     private ImageIcon unknownIcon;
 
-  
+    // Choice buttons
     private RoundedButton rockButton;
     private RoundedButton paperButton;
     private RoundedButton scissorsButton;
 
- 
+    // Reset buttons
     private JButton resetRoundButton;
     private JButton resetAllButton;
 
-  
+    // Score labels
     private JLabel winLabel;
     private JLabel loseLabel;
     private JLabel drawLabel;
     private JLabel roundLabel;
 
-   
+    // Round display
     private JLabel statusLabel;
     private JLabel resultBanner;
     private JLabel playerIconLabel;
@@ -42,7 +56,7 @@ public class UserInterface extends JFrame {
     private JLabel computerNameLabel;
     private JLabel vsLabel;
 
-   
+    // Animation timer
     private Timer flashTimer;
 
     public UserInterface() {
@@ -54,12 +68,20 @@ public class UserInterface extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        // BUG 3 FIX: stop any running timer cleanly when the window closes
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                stopFlashAnimation();
+            }
+        });
+
         loadIcons();
         initComponents();
         setVisible(true);
     }
 
-   
+    // ── Icon loading ──────────────────────────────────────────────────────
 
     private void loadIcons() {
         rockIcon     = loadIcon("/images/rock.png",     64);
@@ -88,19 +110,15 @@ public class UserInterface extends JFrame {
         return new ImageIcon(img);
     }
 
-   
+    // ── Build the UI ──────────────────────────────────────────────────────
 
     private void initComponents() {
-
-     
         JPanel background = new GradientPanel();
         background.setLayout(new BorderLayout(0, 0));
         setContentPane(background);
 
-    
-        background.add(buildScorePanel(),  BorderLayout.NORTH);
+        background.add(buildScorePanel(), BorderLayout.NORTH);
 
-      
         JPanel centerPanel = new JPanel(new BorderLayout(0, 4));
         centerPanel.setOpaque(false);
         centerPanel.add(buildStatusLabel(),  BorderLayout.NORTH);
@@ -108,14 +126,11 @@ public class UserInterface extends JFrame {
         centerPanel.add(buildResultBanner(), BorderLayout.SOUTH);
         background.add(centerPanel, BorderLayout.CENTER);
 
-      
         background.add(buildBottomPanel(), BorderLayout.SOUTH);
     }
 
-  
+    // ── Gradient background ───────────────────────────────────────────────
 
-   
-  
     private class GradientPanel extends JPanel {
         @Override
         protected void paintComponent(Graphics g) {
@@ -124,8 +139,8 @@ public class UserInterface extends JFrame {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                 RenderingHints.VALUE_ANTIALIAS_ON);
             GradientPaint gp = new GradientPaint(
-                0, 0,            new Color(230, 238, 255),  
-                0, getHeight(),  new Color(255, 255, 255)   
+                0, 0,           new Color(230, 238, 255),
+                0, getHeight(), new Color(255, 255, 255)
             );
             g2.setPaint(gp);
             g2.fillRect(0, 0, getWidth(), getHeight());
@@ -133,7 +148,7 @@ public class UserInterface extends JFrame {
         }
     }
 
- 
+    // ── Score panel ───────────────────────────────────────────────────────
 
     private JPanel buildScorePanel() {
         JPanel panel = new JPanel(new GridLayout(1, 4, 0, 0));
@@ -164,14 +179,12 @@ public class UserInterface extends JFrame {
         loseLabel.setText("Losses: " + controller.getLoseCount());
         drawLabel.setText("Draws: "  + controller.getDrawCount());
         roundLabel.setText("Rounds: "+ controller.getTotalRounds());
-
-
         setTitle("Rock Paper Scissors  |  Wins: " + controller.getWinCount()
                + "  Losses: " + controller.getLoseCount()
                + "  Draws: "  + controller.getDrawCount());
     }
 
-  
+    // ── Status label ──────────────────────────────────────────────────────
 
     private JPanel buildStatusLabel() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -184,14 +197,13 @@ public class UserInterface extends JFrame {
         return panel;
     }
 
-  
+    // ── VS panel ──────────────────────────────────────────────────────────
 
     private JPanel buildVsPanel() {
         JPanel panel = new JPanel(new GridLayout(1, 3, 10, 0));
         panel.setBorder(BorderFactory.createEmptyBorder(6, 30, 6, 30));
         panel.setOpaque(false);
 
-       
         JPanel playerPanel = new JPanel(new BorderLayout(0, 6));
         playerPanel.setOpaque(false);
         playerIconLabel = new JLabel(unknownIcon, SwingConstants.CENTER);
@@ -201,12 +213,10 @@ public class UserInterface extends JFrame {
         playerPanel.add(playerIconLabel, BorderLayout.CENTER);
         playerPanel.add(playerNameLabel, BorderLayout.SOUTH);
 
-    
         vsLabel = new JLabel("VS", SwingConstants.CENTER);
         vsLabel.setFont(new Font("Arial", Font.BOLD, 28));
         vsLabel.setForeground(new Color(180, 60, 60));
 
-        
         JPanel computerPanel = new JPanel(new BorderLayout(0, 6));
         computerPanel.setOpaque(false);
         computerIconLabel = new JLabel(unknownIcon, SwingConstants.CENTER);
@@ -222,7 +232,7 @@ public class UserInterface extends JFrame {
         return panel;
     }
 
-   
+    // ── Result banner ─────────────────────────────────────────────────────
 
     private JPanel buildResultBanner() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -234,14 +244,13 @@ public class UserInterface extends JFrame {
         return panel;
     }
 
-  
+    // ── Bottom panel ──────────────────────────────────────────────────────
 
     private JPanel buildBottomPanel() {
         JPanel wrapper = new JPanel(new BorderLayout(0, 10));
         wrapper.setBorder(BorderFactory.createEmptyBorder(0, 20, 18, 20));
         wrapper.setOpaque(false);
 
-      
         JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 14, 0));
         buttonPanel.setOpaque(false);
 
@@ -257,7 +266,6 @@ public class UserInterface extends JFrame {
         buttonPanel.add(paperButton);
         buttonPanel.add(scissorsButton);
 
-      
         JPanel resetPanel = new JPanel(new GridLayout(1, 2, 10, 0));
         resetPanel.setOpaque(false);
 
@@ -270,10 +278,9 @@ public class UserInterface extends JFrame {
         resetPanel.add(resetRoundButton);
         resetPanel.add(resetAllButton);
 
-        wrapper.add(buttonPanel,  BorderLayout.CENTER);
-        wrapper.add(resetPanel,   BorderLayout.SOUTH);
+        wrapper.add(buttonPanel, BorderLayout.CENTER);
+        wrapper.add(resetPanel,  BorderLayout.SOUTH);
 
-       
         rockButton.addActionListener(e -> {
             SoundPlayer.playClick();
             handleChoice("Rock");
@@ -286,12 +293,10 @@ public class UserInterface extends JFrame {
             SoundPlayer.playClick();
             handleChoice("Scissors");
         });
-
         resetRoundButton.addActionListener(e -> {
             SoundPlayer.playClick();
             handleNewRound();
         });
-
         resetAllButton.addActionListener(e -> {
             SoundPlayer.playClick();
             handleResetAll();
@@ -300,7 +305,6 @@ public class UserInterface extends JFrame {
         return wrapper;
     }
 
-    
     private void styleResetButton(JButton btn, Color color) {
         btn.setFont(new Font("Arial", Font.BOLD, 13));
         btn.setFocusPainted(false);
@@ -313,15 +317,13 @@ public class UserInterface extends JFrame {
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-   
+    // ── Round handling ────────────────────────────────────────────────────
 
     private void handleChoice(String choice) {
         stopFlashAnimation();
-
         String message = controller.handlePlayerChoice(choice);
         statusLabel.setText(message);
 
-      
         playerIconLabel.setIcon(getIconFor(choice));
         playerNameLabel.setText("You: " + choice);
 
@@ -329,12 +331,9 @@ public class UserInterface extends JFrame {
         computerIconLabel.setIcon(getIconFor(compChoice));
         computerNameLabel.setText("CPU: " + compChoice);
 
-     
         String result = controller.getResult();
         showResultBannerAnimated(result);
         playSoundForResult(result);
-
-      
         refreshScorePanel();
     }
 
@@ -361,9 +360,9 @@ public class UserInterface extends JFrame {
         refreshScorePanel();
     }
 
- 
+    // ── Result banner animation ───────────────────────────────────────────
+
     private void showResultBannerAnimated(String result) {
-       
         Color resultColor;
         switch (result) {
             case DataModel.WIN:
@@ -381,21 +380,18 @@ public class UserInterface extends JFrame {
         }
         resultBanner.setForeground(resultColor);
         resultBanner.setVisible(true);
-
-       
         vsLabel.setForeground(resultColor);
 
-      
         final int[] flashCount = {0};
-        final int maxFlashes   = 6;   
+        final int maxFlashes   = 6;
 
         flashTimer = new Timer(200, null);
         flashTimer.addActionListener(e -> {
             flashCount[0]++;
-            resultBanner.setVisible(flashCount[0] % 2 == 0); 
+            resultBanner.setVisible(flashCount[0] % 2 == 0);
             if (flashCount[0] >= maxFlashes) {
                 flashTimer.stop();
-                resultBanner.setVisible(true);              
+                resultBanner.setVisible(true);
             }
         });
         flashTimer.start();
@@ -408,7 +404,7 @@ public class UserInterface extends JFrame {
         resultBanner.setVisible(false);
     }
 
-
+    // ── Sound ─────────────────────────────────────────────────────────────
 
     private void playSoundForResult(String result) {
         switch (result) {
@@ -418,7 +414,7 @@ public class UserInterface extends JFrame {
         }
     }
 
-
+    // ── Helpers ───────────────────────────────────────────────────────────
 
     private ImageIcon getIconFor(String choice) {
         switch (choice) {
