@@ -4,22 +4,7 @@ import model.DataModel;
 import utils.Validator;
 import java.util.Random;
 
-/**
- * Week 9 – Testing and Debugging
- *
- * Bug fixes found during testing:
- *
- *   BUG 1 – Null pointer risk in handlePlayerChoice()
- *   Passing null caused a NullPointerException before the validator ran.
- *   FIX: Added an explicit null guard at the very top.
- *
- *   BUG 2 – Score increments on rapid repeated clicks
- *   Fast clicking could call handlePlayerChoice() twice in one round,
- *   doubling the score increment.
- *   FIX: Added isProcessing flag that blocks re-entry during a round.
- *
- * Everything else is unchanged from Weeks 4–8.
- */
+
 public class Controller {
 
     private DataModel model;
@@ -39,7 +24,7 @@ public class Controller {
         random = new Random();
     }
 
-    // ── Main action ───────────────────────────────────────────────────────
+   //Main action 
 
     public String handlePlayerChoice(String choice) {
 
@@ -77,7 +62,7 @@ public class Controller {
         }
     }
 
-    // ── Score management ──────────────────────────────────────────────────
+    //  Score management 
 
     private void updateScore(String result) {
         switch (result) {
@@ -92,7 +77,7 @@ public class Controller {
     public int getDrawCount()   { return model.getDrawCount(); }
     public int getTotalRounds() { return model.getTotalRounds(); }
 
-    // ── Reset options ─────────────────────────────────────────────────────
+    // Reset options
 
     public String handleReset() {
         model.resetRound();
@@ -104,7 +89,7 @@ public class Controller {
         return "Choose Rock, Paper, or Scissors!";
     }
 
-    // ── Core game logic ───────────────────────────────────────────────────
+    //  Core game logic 
 
     private String determineResult(String player, String computer) {
         if (player.equals(computer)) {
@@ -145,13 +130,13 @@ public class Controller {
         return "";
     }
 
-    // ── Computer random move ──────────────────────────────────────────────
+    // Computer random move
 
     private String generateComputerChoice() {
         return CHOICES[random.nextInt(CHOICES.length)];
     }
 
-    // ── Getters ───────────────────────────────────────────────────────────
+    // Getters
 
     public String getPlayerChoice()   { return model.getPlayerChoice(); }
     public String getComputerChoice() { return model.getComputerChoice(); }
