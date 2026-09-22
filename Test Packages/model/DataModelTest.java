@@ -15,7 +15,7 @@ public class DataModelTest {
     }
 
    
-
+// constructor 
     @Test
     public void testInitialPlayerChoiceIsEmpty() {
         assertEquals("Player choice should start empty", "", model.getPlayerChoice());
@@ -52,7 +52,7 @@ public class DataModelTest {
     }
 
  
-
+// constants 
     @Test
     public void testConstantRock()     { assertEquals("Rock",     DataModel.ROCK); }
 
@@ -72,7 +72,7 @@ public class DataModelTest {
     public void testConstantDraw()     { assertEquals("DRAW", DataModel.DRAW); }
 
  
-
+// setters and getters 
     @Test
     public void testSetAndGetPlayerChoice() {
         model.setPlayerChoice(DataModel.ROCK);
@@ -92,7 +92,7 @@ public class DataModelTest {
     }
 
  
-
+// score incrementers 
     @Test
     public void testIncrementWin() {
         model.incrementWin();
@@ -133,7 +133,7 @@ public class DataModelTest {
         assertEquals(4, model.getTotalRounds());
     }
 
-   
+   // reset round 
     @Test
     public void testResetRoundClearsPlayerChoice() {
         model.setPlayerChoice(DataModel.ROCK);
@@ -166,7 +166,7 @@ public class DataModelTest {
     }
 
    
-
+// reset all
     @Test
     public void testResetAllClearsEverything() {
         model.setPlayerChoice(DataModel.ROCK);
