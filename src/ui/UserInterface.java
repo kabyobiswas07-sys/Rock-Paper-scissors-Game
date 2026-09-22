@@ -9,19 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 
-/**
- * Week 9 – Testing and Debugging
- *
- * Bug fix found during testing:
- *
- *   BUG 3 – Flash animation Timer keeps running after window is closed
- *   When the user closed the window during a flash animation, the Timer
- *   thread kept running in the background, preventing the JVM from
- *   shutting down cleanly in some environments.
- *   FIX: Added a WindowListener that calls stopFlashAnimation() on close.
- *
- * Everything else is unchanged from Week 8.
- */
+
 public class UserInterface extends JFrame {
 
     private Controller controller;
@@ -81,7 +69,7 @@ public class UserInterface extends JFrame {
         setVisible(true);
     }
 
-    // ── Icon loading ──────────────────────────────────────────────────────
+    // Icon loading
 
     private void loadIcons() {
         rockIcon     = loadIcon("/images/rock.png",     64);
@@ -110,7 +98,7 @@ public class UserInterface extends JFrame {
         return new ImageIcon(img);
     }
 
-    // ── Build the UI ──────────────────────────────────────────────────────
+    // Build the UI
 
     private void initComponents() {
         JPanel background = new GradientPanel();
@@ -129,7 +117,7 @@ public class UserInterface extends JFrame {
         background.add(buildBottomPanel(), BorderLayout.SOUTH);
     }
 
-    // ── Gradient background ───────────────────────────────────────────────
+    //  Gradient background 
 
     private class GradientPanel extends JPanel {
         @Override
@@ -148,7 +136,7 @@ public class UserInterface extends JFrame {
         }
     }
 
-    // ── Score panel ───────────────────────────────────────────────────────
+    // Score panel 
 
     private JPanel buildScorePanel() {
         JPanel panel = new JPanel(new GridLayout(1, 4, 0, 0));
@@ -184,7 +172,7 @@ public class UserInterface extends JFrame {
                + "  Draws: "  + controller.getDrawCount());
     }
 
-    // ── Status label ──────────────────────────────────────────────────────
+    // Status label 
 
     private JPanel buildStatusLabel() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -197,7 +185,7 @@ public class UserInterface extends JFrame {
         return panel;
     }
 
-    // ── VS panel ──────────────────────────────────────────────────────────
+    //  VS panel 
 
     private JPanel buildVsPanel() {
         JPanel panel = new JPanel(new GridLayout(1, 3, 10, 0));
@@ -232,7 +220,7 @@ public class UserInterface extends JFrame {
         return panel;
     }
 
-    // ── Result banner ─────────────────────────────────────────────────────
+    //  Result banner 
 
     private JPanel buildResultBanner() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -244,7 +232,7 @@ public class UserInterface extends JFrame {
         return panel;
     }
 
-    // ── Bottom panel ──────────────────────────────────────────────────────
+    //  Bottom panel 
 
     private JPanel buildBottomPanel() {
         JPanel wrapper = new JPanel(new BorderLayout(0, 10));
@@ -317,7 +305,7 @@ public class UserInterface extends JFrame {
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    // ── Round handling ────────────────────────────────────────────────────
+    // Round handling 
 
     private void handleChoice(String choice) {
         stopFlashAnimation();
@@ -360,7 +348,7 @@ public class UserInterface extends JFrame {
         refreshScorePanel();
     }
 
-    // ── Result banner animation ───────────────────────────────────────────
+    //  Result banner animation 
 
     private void showResultBannerAnimated(String result) {
         Color resultColor;
@@ -404,7 +392,7 @@ public class UserInterface extends JFrame {
         resultBanner.setVisible(false);
     }
 
-    // ── Sound ─────────────────────────────────────────────────────────────
+    //  Sound 
 
     private void playSoundForResult(String result) {
         switch (result) {
@@ -414,7 +402,7 @@ public class UserInterface extends JFrame {
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────
+    //  Helpers 
 
     private ImageIcon getIconFor(String choice) {
         switch (choice) {
