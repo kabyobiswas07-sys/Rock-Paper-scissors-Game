@@ -8,7 +8,7 @@
 📄  Paper   →  covers  →  🪨  Rock
 ```
 
-The player competes against the computer, which makes a random choice each round. The game tracks wins, losses, and draws with a live scoreboard, flashing animations, and sound effects.
+The player competes against the computer, which makes  a random choice each round. The game tracks wins, losses, and draws with a live scoreboard, flashing animations, and sound effects.
 
 ---
 
