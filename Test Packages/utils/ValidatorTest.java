@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 public class ValidatorTest {
 
 
-
+// valid choices 
     @Test
     public void testRockIsValid() {
         assertTrue("Rock should be a valid choice",
@@ -26,7 +26,7 @@ public class ValidatorTest {
     }
 
   
-
+// invalid inputs 
     @Test
     public void testEmptyStringIsInvalid() {
         assertFalse("Empty string should be invalid",
@@ -58,7 +58,7 @@ public class ValidatorTest {
     }
 
   
-
+// case sensivity
     @Test
     public void testLowercaseRockIsInvalid() {
         assertFalse("Lowercase 'rock' should fail",
@@ -78,7 +78,7 @@ public class ValidatorTest {
     }
 
 
-
+//error message 
     @Test
     public void testErrorMessageForNull() {
         String msg = Validator.getErrorMessage(null);
