@@ -15,7 +15,7 @@ public class ControllerTest {
     }
 
 
-
+// choice of P
     @Test
     public void testHandleRockReturnsMessage() {
         String result = controller.handlePlayerChoice("Rock");
@@ -50,7 +50,7 @@ public class ControllerTest {
         assertNotNull(result);
     }
 
- 
+ // choice of C
     @Test
     public void testComputerChoiceIsValidAfterRound() {
         controller.handlePlayerChoice("Rock");
@@ -76,7 +76,7 @@ public class ControllerTest {
         assertTrue("Computer should not always pick the same choice", foundDifferent);
     }
 
-
+//result 
     @Test
     public void testResultIsValidAfterRound() {
         controller.handlePlayerChoice("Rock");
@@ -86,7 +86,7 @@ public class ControllerTest {
     }
 
 
-
+//score tracking 
     @Test
     public void testTotalRoundsIncrementAfterEachRound() {
         assertEquals(0, controller.getTotalRounds());
@@ -116,7 +116,7 @@ public class ControllerTest {
     }
 
 
-
+//reset message
     @Test
     public void testWinMessageContainsWin() {
         for (int i = 0; i < 50; i++) {
@@ -154,7 +154,7 @@ public class ControllerTest {
     }
 
    
-
+//reset all
     @Test
     public void testHandleResetReturnsDefaultMessage() {
         String msg = controller.handleReset();
